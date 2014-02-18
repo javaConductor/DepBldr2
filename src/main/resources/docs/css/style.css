@@ -1,0 +1,46 @@
+header
+{
+    background: green;
+    height: 50px;
+}
+
+.row
+{
+    height: 100%;
+    display: table-row;
+}
+
+.category-list{
+    float:left;
+    display:table;
+    width: 40%;
+    height: 300px;
+    overflow: auto;
+    padding: 10px 10px 10px 10px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.details{
+    float:  right;
+    height: 300px;
+    overflow: auto;
+}
+
+.buildFileDependencies{
+    height: 300px;
+    overflow: auto;
+    text-align: top
+}
+tbody.buildFileDrpendencies{
+    vertical-align:top;
+}
+
+.buildFileTransitives{
+    height: 300px;
+    overflow: auto;
+}
+
+th{
+    text-align:center;
+}
