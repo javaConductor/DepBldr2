@@ -12,23 +12,23 @@ class Main {
     static public void main(String[] args) {
         println "Main started!!"
 
-        def asMap = {thing ->
+        def asMap = { thing ->
             thing.class.declaredFields { !it.synthetic }.collectEntries {
-                [ (it.name):thing."$it.name" ]
+                [(it.name): thing."$it.name"]
             }
         }
 
-        def artifactToMap = {a ->
+        def artifactToMap = { a ->
             [artifactId: a.artifactId,
-            groupId: a.groupId,
-            version: a.version,
-            classifier: a.classifier,
-            extension:a.extension
+                    groupId: a.groupId,
+                    version: a.version,
+                    classifier: a.classifier,
+                    extension: a.extension
             ]
         }
 
         AnnotationConfigApplicationContext ctx =
-                new AnnotationConfigApplicationContext (DependencyService.class)
+                new AnnotationConfigApplicationContext(DependencyService.class)
         ctx.register(AppConfig.class);
 //        ctx.refresh();
         def service = ctx.getBean(DependencyService.class);
@@ -50,35 +50,35 @@ class Main {
                         }
                     }
                     artifact.then({
-                       writeJson( artifactToMap( it ) )
+                        writeJson(artifactToMap(it))
                     })
                 }
             }
-            get(":id/dependencies") { artifactId ->
+            get(":id/dependencies") { ->
                 def parts = artifactId.split(':')
                 if (parts.size() < 3) {
-                    error(404, "Bad artifact name [$artifactId]")
+                    error(404, "BartifactIdad artifact name [$artifactId]")
                 } else {
                     def artifactDeps = new DataflowVariable()
                     task {
-                        //TODO When Exception thrown, it does nothing - returns NO response!!!
                         try {
                             artifactDeps << service.getArtifactDependencies(parts[0], parts[1], parts[2])
                         } catch (Throwable e) {
+
+                            ///TODO check for Artifact NOT found error.
                             System.err.println "Error getting deps for $artifactId: ${e.message}"
                             e.printStackTrace(System.err)
                             error(500, e.message)
                         }
-                        }
+                    }
                     artifactDeps.then({
-                       writeJson(
-                               it.collect { result ->
-                                                artifactToMap( result.artifact )
-                               })
+                        writeJson(
+                                it.collect { result ->
+                                    artifactToMap(result.artifact)
+                                })
                     })
                 }
             }
-
         }
 
         gserv.http {

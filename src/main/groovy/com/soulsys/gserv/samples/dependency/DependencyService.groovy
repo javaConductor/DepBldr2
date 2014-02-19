@@ -14,8 +14,11 @@ import org.eclipse.aether.resolution.ArtifactRequest
 import org.eclipse.aether.resolution.ArtifactResolutionException
 import org.eclipse.aether.resolution.ArtifactResult
 import org.eclipse.aether.resolution.DependencyRequest
+import org.eclipse.aether.resolution.VersionRangeRequest
+import org.eclipse.aether.resolution.VersionRangeResult
 import org.eclipse.aether.util.artifact.JavaScopes
 import org.eclipse.aether.util.filter.DependencyFilterUtils
+import org.eclipse.aether.version.Version
 
 import javax.inject.Inject
 
@@ -60,6 +63,22 @@ class DependencyService {
         DependencyRequest depRequest = new DependencyRequest(collectReq, depFilter)
         List<ArtifactResult> depList = repoSys.resolveDependencies(repoSysSession, depRequest).artifactResults
         depList//.collect{ it.artifact}
+    }
+
+    List<ArtifactResult> getArtifactVersions(String groupId, String artifactId) {
+        def artifact = new DefaultArtifact(groupId, artifactId, "jar", "[0,)")
+
+       // Artifact artifact = new DefaultArtifact( "org.eclipse.aether:aether-util:[0,)" );
+
+        VersionRangeRequest rangeRequest = new VersionRangeRequest();
+        rangeRequest.setArtifact( artifact );
+        rangeRequest.setRepositories( Booter.newRepositories( repoSys, repoSysSession ) );
+
+        VersionRangeResult rangeResult = repoSys.resolveVersionRange( repoSysSession, rangeRequest );
+
+        List<Version> versions = rangeResult.getVersions();
+        versions//
+
     }
 
 }

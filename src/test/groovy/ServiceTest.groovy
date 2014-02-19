@@ -2,12 +2,12 @@
  * Created by lcollins on 2/13/14.
  */
 
-
 import com.soulsys.g_serv.Route
 import com.soulsys.g_serv.RouteFactory
 import com.soulsys.g_serv.utils.LinkBuilder
 import com.soulsys.gserv.samples.dependency.DependencyService
 import org.eclipse.aether.artifact.Artifact
+import org.eclipse.aether.version.Version
 import org.junit.Before
 import org.junit.Test
 
@@ -47,4 +47,13 @@ class ServiceTest {
             println "Dep: $it"
         }
     }
+
+    @Test
+    public final void testGetVersions() {
+        List<Version> a = service.getArtifactVersions("org.scala-lang","scala-library")
+        assert a[0].version == "SNAPSHOT"
+//        println "artifact: ${a.toString()} -> ${a.file.absolutePath}"
+    }
+
+
 }
