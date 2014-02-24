@@ -1,8 +1,8 @@
 'use strict';
 
 var theModule = angular.module('DependencyBuilder', [
-      'ngResource'
-    ]);
+      'ngResource',
+      'ui.bootstrap'    ]);
 
 theModule.config(function ($routeProvider) {
     $routeProvider

@@ -1,6 +1,6 @@
 
 
-function DependencyBuilderCtrl($scope){
+function DependencyBuilderCtrl($scope, $http, $q){
 
     $scope.buildFile = {
         dependencies : [],
@@ -11,79 +11,16 @@ function DependencyBuilderCtrl($scope){
         groupId:"org.springframework",
         artifactId:"spring",
         versions:[{version:'2.5.6'},{version:'2.0.6'}],
-        //version:{version:'2.5.6'},
-        dependencies:[
-            {"artifactId":"spring-webmvc","groupId":"org.springframework","version":"4.0.0.RELEASE","classifier":"","extension":"jar"},
-            {"artifactId":"jackson-databind","groupId":"com.fasterxml.jackson.core","version":"2.2.2","classifier":"","extension":"jar"},
-            {"artifactId":"jackson-annotations","groupId":"com.fasterxml.jackson.core","version":"2.2.2","classifier":"","extension":"jar"},
-            {"artifactId":"jackson-core","groupId":"com.fasterxml.jackson.core","version":"2.2.2","classifier":"","extension":"jar"},
-            {"artifactId":"itext","groupId":"com.lowagie","version":"2.1.7","classifier":"","extension":"jar"},
-            {"artifactId":"bcmail-jdk14","groupId":"bouncycastle","version":"138","classifier":"","extension":"jar"},
-            {"artifactId":"bcprov-jdk14","groupId":"bouncycastle","version":"138","classifier":"","extension":"jar"},
-            {"artifactId":"bctsp-jdk14","groupId":"org.bouncycastle","version":"1.38","classifier":"","extension":"jar"},
-            {"artifactId":"bcprov-jdk14","groupId":"org.bouncycastle","version":"1.38","classifier":"","extension":"jar"},
-            {"artifactId":"bcmail-jdk14","groupId":"org.bouncycastle","version":"1.38","classifier":"","extension":"jar"},
-            {"artifactId":"jasperreports","groupId":"net.sf.jasperreports","version":"5.1.0","classifier":"","extension":"jar"},
-            {"artifactId":"commons-beanutils","groupId":"commons-beanutils","version":"1.8.0","classifier":"","extension":"jar"}
-            ,{"artifactId":"commons-collections","groupId":"commons-collections","version":"2.1","classifier":"","extension":"jar"},
-            {"artifactId":"commons-digester","groupId":"commons-digester","version":"2.1","classifier":"","extension":"jar"},
-            {"artifactId":"commons-logging","groupId":"commons-logging","version":"1.1.1","classifier":"","extension":"jar"},
-            {"artifactId":"jcommon","groupId":"jfree","version":"1.0.15","classifier":"","extension":"jar"},
-            {"artifactId":"jfreechart","groupId":"jfree","version":"1.0.12","classifier":"","extension":"jar"},
-            {"artifactId":"jdtcore","groupId":"eclipse","version":"3.1.0","classifier":"","extension":"jar"},
-            {"artifactId":"castor","groupId":"org.codehaus.castor","version":"1.2","classifier":"","extension":"jar"},
-            {"artifactId":"jxl","groupId":"net.sourceforge.jexcelapi","version":"2.6.3","classifier":"","extension":"jar"},
-            {"artifactId":"log4j","groupId":"log4j","version":"1.2.14","classifier":"","extension":"jar"},
-            {"artifactId":"poi","groupId":"org.apache.poi","version":"3.9","classifier":"","extension":"jar"},
-            {"artifactId":"commons-codec","groupId":"commons-codec","version":"1.5","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-api","groupId":"org.apache.tiles","version":"2.1.2","classifier":"","extension":"jar"},
-            {"artifactId":"commons-logging-api","groupId":"commons-logging","version":"1.1","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-core","groupId":"org.apache.tiles","version":"3.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-el","groupId":"org.apache.tiles","version":"3.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-extras","groupId":"org.apache.tiles","version":"3.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-request-servlet-wildcard","groupId":"org.apache.tiles","version":"1.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-request-mustache","groupId":"org.apache.tiles","version":"1.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"core","groupId":"com.github.spullara.mustache.java","version":"0.6.2","classifier":"","extension":"jar"},
-            {"artifactId":"guava","groupId":"com.google.guava","version":"r09","classifier":"","extension":"jar"},
-            {"artifactId":"builder","groupId":"com.github.spullara.mustache.java","version":"0.6.2","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-freemarker","groupId":"org.apache.tiles","version":"3.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-template","groupId":"org.apache.tiles","version":"3.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-autotag-core-runtime","groupId":"org.apache.tiles","version":"1.1.0","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-request-freemarker","groupId":"org.apache.tiles","version":"1.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-velocity","groupId":"org.apache.tiles","version":"3.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"velocity-tools","groupId":"org.apache.velocity","version":"2.0","classifier":"","extension":"jar"},
-            {"artifactId":"oro","groupId":"oro","version":"2.0.8","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-request-velocity","groupId":"org.apache.tiles","version":"1.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-mvel","groupId":"org.apache.tiles","version":"3.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"mvel2","groupId":"org.mvel","version":"2.0.11","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-ognl","groupId":"org.apache.tiles","version":"3.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"ognl","groupId":"ognl","version":"2.7.3","classifier":"","extension":"jar"},
-            {"artifactId":"javassist","groupId":"jboss","version":"3.7.ga","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-compat","groupId":"org.apache.tiles","version":"3.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-jsp","groupId":"org.apache.tiles","version":"2.1.2","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-request-api","groupId":"org.apache.tiles","version":"1.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-servlet","groupId":"org.apache.tiles","version":"3.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"tiles-request-servlet","groupId":"org.apache.tiles","version":"1.0.1","classifier":"","extension":"jar"},
-            {"artifactId":"velocity","groupId":"org.apache.velocity","version":"1.7","classifier":"","extension":"jar"},
-            {"artifactId":"commons-lang","groupId":"commons-lang","version":"2.4","classifier":"","extension":"jar"},
-            {"artifactId":"jackson-mapper-asl","groupId":"org.codehaus.jackson","version":"1.9.12","classifier":"","extension":"jar"},
-            {"artifactId":"jackson-core-asl","groupId":"org.codehaus.jackson","version":"1.9.12","classifier":"","extension":"jar"},
-            {"artifactId":"freemarker","groupId":"org.freemarker","version":"2.3.19","classifier":"","extension":"jar"},
-            {"artifactId":"spring-beans","groupId":"org.springframework","version":"4.0.0.RELEASE","classifier":"","extension":"jar"},
-            {"artifactId":"spring-context","groupId":"org.springframework","version":"4.0.0.RELEASE","classifier":"","extension":"jar"},
-            {"artifactId":"spring-aop","groupId":"org.springframework","version":"4.0.0.RELEASE","classifier":"","extension":"jar"},
-            {"artifactId":"spring-context-support","groupId":"org.springframework","version":"4.0.0.RELEASE","classifier":"","extension":"jar"},
-            {"artifactId":"spring-core","groupId":"org.springframework","version":"4.0.0.RELEASE","classifier":"","extension":"jar"},
-            {"artifactId":"spring-expression","groupId":"org.springframework","version":"4.0.0.RELEASE","classifier":"","extension":"jar"},
-            {"artifactId":"spring-oxm","groupId":"org.springframework","version":"4.0.0.RELEASE","classifier":"","extension":"jar"},
-            {"artifactId":"spring-web","groupId":"org.springframework","version":"4.0.0.RELEASE","classifier":"","extension":"jar"},
-            {"artifactId":"aopalliance","groupId":"aopalliance","version":"1.0","classifier":"","extension":"jar"},
-            {"artifactId":"rome","groupId":"rome","version":"1.0","classifier":"","extension":"jar"},
-            {"artifactId":"jdom","groupId":"jdom","version":"1.0","classifier":"","extension":"jar"},
-            {"artifactId":"velocity-tools-view","groupId":"velocity-tools","version":"1.4","classifier":"","extension":"jar"}]
-}
+        dependencies:[]
+    }
 
     $scope.categories = [{
+        name:"Languages",
+        artifacts:[
+            {groupId:"org.scala-lang", artifactId:"scala-compiler"},
+            {groupId:"org.scala-lang", artifactId:"scala-library"},
+            {groupId:'org.codehaus.groovy',artifactId:'groovy-all'}
+            ]},{
         name:"DB Driver",
         artifacts:[
             {groupId:"com.gmongo",artifactId:"gmongo"},
@@ -102,6 +39,10 @@ function DependencyBuilderCtrl($scope){
             ]}
     ]
 
+    $scope.error = {
+        message:""
+    }
+
     $scope.transitives = function(){
         var t = [];
         $scope.buildFile.dependencies.forEach (function( dep){ t = t.concat(dep.dependencies)});
@@ -119,9 +60,58 @@ function DependencyBuilderCtrl($scope){
         $scope.buildFile.transitiveDependencies = $scope.transitives()
     }
 
+    $scope.toggleDetails = function(artifact){
+        if(artifact.artifactId== $scope.details.artifactId && artifact.groupId== $scope.details.groupId  ){
+            // empty the details views
+            $scope.details.artifactId = ""
+            $scope.details.groupId=""
+            $scope.details.versions = []
+            $scope.details.dependencies = []
+            return
+        }
 
+        $scope.populateDetails(artifact, $scope.details)
+    }
+
+//    $scope.restSvcVersion = $resource('/artifact/:groupId/:artifactId/versions', {isArray: true});
+//    $scope.restSvcDeps = $resource('/artifact/:groupId/:artifactId/version/:version/dependencies', {isArray: true});
+
+    $scope.populateDtlDependencies = function(){
+        var groupId=$scope.details.groupId
+        var artifactId = $scope.details.artifactId
+        var version=$scope.details.version.version
+        var deps = $http({method: 'GET', url: "/artifact/"+groupId+"/"+artifactId+"/version/"+version+"/dependencies"}).
+            success(function(data, status, headers, config) {
+                console.dir(["got deps for $scope.details.groupId:$scope.details.artifactId ", data])
+                $scope.details.dependencies = data
+            }).
+            error(function(data, status, headers, config) {
+         // called asynchronously if an error occurs
+         // or server returns response with an error status.
+                console.dir(["error getting deps for $scope.details.groupId:$scope.details.artifactId", data])
+                        $scope.error.message = "status:$status message:$data"
+            });
+        }
+
+
+    $scope.populateDetails = function(artifact, details){
+            var groupId = artifact.groupId
+            var artifactId = artifact.artifactId
+            details.groupId = groupId
+            details.artifactId = artifactId
+            var url = "/artifact/"+groupId+"/"+artifactId+"/versions";
+            $http({method: 'GET', url: url}).
+                success(function(versions, status, headers, config) {
+                     console.dir(["got versions for "+url, versions])
+                     details.versions = versions
+                }).
+                error(function(data, status, headers, config) {
+                    console.dir(["error getting versions for "+url, data])
+                });
+    }
 
 }
 
-DependencyBuilderCtrl.$inject = ["$scope", "$resource", "$location"]
+
+DependencyBuilderCtrl.$inject = ["$scope", "$http", "$q"]
 

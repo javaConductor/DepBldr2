@@ -2,19 +2,18 @@
 <html ng-app="DependencyBuilder">
 <head>
     <title>Dependency Builder</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="js/bootstrap-3.1.1-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
 
-    <!-- Optional theme -->
+    <link rel="stylesheet" href="js/angular-ui/angular-ui.min.css">
+    <link rel="stylesheet" href="js/bootstrap-3.1.1-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="js/bootstrap-3.1.1-dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
 <body ng-controller="DependencyBuilderCtrl">
 
 <script type="text/ng-template" id="category.html">
     <ul class=" list-group">{{category.name}}
-        <li class="list-group-item" ng-repeat="artifact in category.artifacts">
+        <li class="list-group-item" ng-click="toggleDetails(artifact)" ng-repeat="artifact in category.artifacts">
             {{artifact.groupId}}:{{artifact.artifactId}}
         </li>
     </ul>
@@ -22,8 +21,12 @@
 
 <script type="text/ng-template" id="details.html">
     {{details.groupId}}:{{details.artifactId}}:
-    <select ng-model="details.version" ng-options="v.version for v in details.versions"></select>
-    <button ng-show="details.version"  ng-click="addDependency()" >
+    <select
+            ng-model="details.version"
+            ng-change="populateDtlDependencies()"
+            ng-options="v.version for v in details.versions">
+    </select>
+    <button ng-show="details.version" ng-click="addDependency()">
         Add Dependency
     </button>
     <ul class="list-group">Dependencies
@@ -32,6 +35,7 @@
         </li>
     </ul>
 </script>
+
 <table class="container">
     <thead>
     <tr>
@@ -40,9 +44,13 @@
     </thead>
     <tr class="row">
         <td class="category-list">
-        <div class="category-list" ng-repeat="category in categories"
-             ng-include="'category.html'">
-        </div>
+            <tabset verticle="true" justified="true">
+                <tab ng-init="nm=category.name" ng-repeat="category in categories"
+                     heading="{{nm}}"
+                        >
+                    <div ng-include="'category.html'"></div>
+                </tab>
+            </tabset>
         </td>
         <td class="details">
             <div class="details" ng-include="'details.html'"></div>
@@ -52,17 +60,28 @@
 
 <table width="100%">
     <thead>
-    <tr> <th colspan="2">Build File Dependencies</th></tr>
-    <tr> <th >Direct</th><th>Transitive</th></tr>
+    <tr>
+        <th colspan="2">Build File Dependencies</th>
+    </tr>
+    <tr>
+        <th>Direct</th>
+        <th>Transitive</th>
+    </tr>
     </thead>
     <tbody>
     <tr>
         <td width="45%" style="height: 300px; overflow: auto;">
             <table width="100%">
-                <tr><th>Group ID</th><th>Artifact</th><th>Version</th></tr>
-                <tbody class="buildFileDependencies" >
+                <tr>
+                    <th>Group ID</th>
+                    <th>Artifact</th>
+                    <th>Version</th>
+                </tr>
+                <tbody class="buildFileDependencies">
                 <tr class="buildFileDependencies" ng-repeat="dep in buildFile.dependencies">
-                    <td> {{dep.groupId}}</td><td> {{dep.artifactId}}</td><td> {{dep.version}}</td>
+                    <td> {{dep.groupId}}</td>
+                    <td> {{dep.artifactId}}</td>
+                    <td> {{dep.version}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -70,14 +89,20 @@
         <td width="45%">
             <table width="100%">
                 <thead>
-                    <tr><th>Group ID</th><th>Artifact</th><th>Version</th></tr>
+                <tr>
+                    <th>Group ID</th>
+                    <th>Artifact</th>
+                    <th>Version</th>
+                </tr>
                 </thead>
             </table>
-            <table  style="overflow:auto; height: 300px;" width="100%">
+            <table style="overflow:auto; height: 300px;" width="100%">
                 <tbody>
-                    <tr ng-repeat="dep in buildFile.transitiveDependencies">
-                        <td> {{dep.groupId}}</td><td> {{dep.artifactId}}</td><td> {{dep.version}}</td>
-                    </tr>
+                <tr ng-repeat="dep in buildFile.transitiveDependencies">
+                    <td> {{dep.groupId}}</td>
+                    <td> {{dep.artifactId}}</td>
+                    <td> {{dep.version}}</td>
+                </tr>
                 </tbody>
             </table>
         </td>
@@ -93,6 +118,7 @@
 <script src="js/app/dependencyBuilderCtrl.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="js/bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>
+<script src="js/ui-bootstrap-tpls-0.10.0.js"></script>
 
 </body>
 
