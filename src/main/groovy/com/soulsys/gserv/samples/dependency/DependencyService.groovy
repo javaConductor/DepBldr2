@@ -29,17 +29,14 @@ import javax.inject.Inject
 class DependencyService {
     RepositorySystem repoSys
     RepositorySystemSession repoSysSession
-  //  RemoteRepository central = new RemoteRepository.Builder("central", "default", "http://repo1.maven.org" )
 
     def DependencyService() {
-
         repoSys = ManualRepositorySystemFactory.newRepositorySystem()
         repoSysSession = Booter.newRepositorySystemSession(repoSys)
-     //   new
     }
 
     Artifact installArtifact(String groupId, String artifactId, String version) {
-        getArtifact(groupId, artifactId,  version)
+        getArtifact(groupId, artifactId, version)
     }
 
     Artifact getArtifact(String groupId, String artifactId, String version) {
@@ -57,8 +54,8 @@ class DependencyService {
 
         def depFilter = DependencyFilterUtils.classpathFilter(JavaScopes.COMPILE)
         CollectRequest collectReq = new CollectRequest()
-        collectReq.setRoot( new Dependency(artifact, JavaScopes.COMPILE))
-        collectReq.setRepositories( Booter.newRepositories(repoSys, repoSysSession))
+        collectReq.setRoot(new Dependency(artifact, JavaScopes.COMPILE))
+        collectReq.setRepositories(Booter.newRepositories(repoSys, repoSysSession))
 
         DependencyRequest depRequest = new DependencyRequest(collectReq, depFilter)
         List<ArtifactResult> depList = repoSys.resolveDependencies(repoSysSession, depRequest).artifactResults
@@ -68,17 +65,14 @@ class DependencyService {
     List<ArtifactResult> getArtifactVersions(String groupId, String artifactId) {
         def artifact = new DefaultArtifact(groupId, artifactId, "jar", "[0,)")
 
-       // Artifact artifact = new DefaultArtifact( "org.eclipse.aether:aether-util:[0,)" );
-
         VersionRangeRequest rangeRequest = new VersionRangeRequest();
-        rangeRequest.setArtifact( artifact );
-        rangeRequest.setRepositories( Booter.newRepositories( repoSys, repoSysSession ) );
+        rangeRequest.setArtifact(artifact);
+        rangeRequest.setRepositories(Booter.newRepositories(repoSys, repoSysSession));
 
-        VersionRangeResult rangeResult = repoSys.resolveVersionRange( repoSysSession, rangeRequest );
+        VersionRangeResult rangeResult = repoSys.resolveVersionRange(repoSysSession, rangeRequest);
 
         List<Version> versions = rangeResult.getVersions();
         versions//
-
     }
 
 }

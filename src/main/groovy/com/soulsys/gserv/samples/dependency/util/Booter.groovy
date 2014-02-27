@@ -30,28 +30,25 @@ import org.eclipse.aether.repository.RemoteRepository;
 /**
  * A helper to boot the repository system and a repository system session.
  */
-public class Booter
-{
+public class Booter {
 
-    public static RepositorySystem newRepositorySystem()
-    {
+    public static RepositorySystem newRepositorySystem() {
         new DefaultRepositorySystem()
     }
 
-    public static DefaultRepositorySystemSession newRepositorySystemSession( RepositorySystem system )
-    {
+    public static DefaultRepositorySystemSession newRepositorySystemSession(RepositorySystem system) {
         DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
         ///  find .m2 dir for localRepo
-        LocalRepository localRepo = new LocalRepository( "C:\\Users\\lcollins\\.m2\\repository" );
-        session.setLocalRepositoryManager( system.newLocalRepositoryManager( session, localRepo ) );
-        session.setTransferListener( new AbstractTransferListener() {
-        } );
-        session.setRepositoryListener( new AbstractRepositoryListener() {
+        LocalRepository localRepo = new LocalRepository("C:\\Users\\lcollins\\.m2\\repository");
+        session.setLocalRepositoryManager(system.newLocalRepositoryManager(session, localRepo));
+        session.setTransferListener(new AbstractTransferListener() {
+        });
+        session.setRepositoryListener(new AbstractRepositoryListener() {
             @Override
             void artifactDeployed(RepositoryEvent event) {
                 super.artifactDeployed(event)
             }
-        } );
+        });
 
         // uncomment to generate dirty trees
         // session.setDependencyGraphTransformer( null );
@@ -59,25 +56,22 @@ public class Booter
         return session;
     }
 
-    public static List<RemoteRepository> newRepositories( RepositorySystem system, RepositorySystemSession session )
-    {
+    public static List<RemoteRepository> newRepositories(RepositorySystem system, RepositorySystemSession session) {
 //        system.newResolutionRepositories()
-        def ret =  new ArrayList<RemoteRepository>( Arrays.asList( newCentralRepository() ) );
-        ret.addAll( newMiscRepositories())
+        def ret = new ArrayList<RemoteRepository>(Arrays.asList(newCentralRepository()));
+        ret.addAll(newMiscRepositories())
         ret
     }
 
-    private static List<RemoteRepository> newMiscRepositories()
-    {
+    private static List<RemoteRepository> newMiscRepositories() {
         return Arrays.asList(
-                new RemoteRepository.Builder( "ow2", "default", "http://repository.ow2.org/" ).build(),
-                new RemoteRepository.Builder( "jboss", "default", "https://repository.jboss.org/nexus/content/groups/public/" ).build()
+                new RemoteRepository.Builder("ow2", "default", "http://repository.ow2.org/").build(),
+                new RemoteRepository.Builder("jboss", "default", "https://repository.jboss.org/nexus/content/groups/public/").build()
         );
     }
 
-    private static RemoteRepository newCentralRepository()
-    {
-        return new RemoteRepository.Builder( "central", "default", "http://central.maven.org/maven2/" ).build();
+    private static RemoteRepository newCentralRepository() {
+        return new RemoteRepository.Builder("central", "default", "http://central.maven.org/maven2/").build();
     }
 
 }

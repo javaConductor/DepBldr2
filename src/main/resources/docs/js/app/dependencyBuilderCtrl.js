@@ -1,5 +1,4 @@
 
-
 function DependencyBuilderCtrl($scope, $http, $q){
 
     $scope.buildFile = {
@@ -13,7 +12,6 @@ function DependencyBuilderCtrl($scope, $http, $q){
         versions:[{version:'2.5.6'},{version:'2.0.6'}],
         dependencies:[]
     }
-
     $scope.categories = [{
         name:"Languages",
         artifacts:[
@@ -27,6 +25,17 @@ function DependencyBuilderCtrl($scope, $http, $q){
             {groupId:'mysql',artifactId:'mysql-connector-java'},
             {groupId:"org.mongodb",artifactId:"mongo-java-driver"},
             {groupId:"com.oracle",artifactId:"ojdbc14"}
+            ]},{
+        name:"Parsers",
+        artifacts:[
+            {groupId:"com.esotericsoftware.yamlbeans",artifactId:"yamlbeans"},
+            {groupId:"org.yaml",artifactId:"snakeyaml"},
+            {groupId:"dom4j",artifactId:"dom4j"},
+            {groupId:"xml-apis",artifactId:"xml-apis"},
+            {groupId:"org.codehaus.jackson",artifactId:"jackson-mapper-asl"},
+            {groupId:'org.json',artifactId:'json'},
+            {groupId:"org.codehaus.jettison",artifactId:"jettison"},
+            {groupId:"com.fasterxml.jackson.core",artifactId:"jackson-core"}
             ]},{
         name: "Spring Framework",
         artifacts:[
@@ -111,7 +120,6 @@ function DependencyBuilderCtrl($scope, $http, $q){
     }
 
 }
-
 
 DependencyBuilderCtrl.$inject = ["$scope", "$http", "$q"]
 

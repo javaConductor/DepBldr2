@@ -41,67 +41,91 @@
     <tr>
         <th colspan="2">Dependency Builder App</th>
     </tr>
-    </thead>
-    <tr class="row">
-        <td class="category-list">
-            <tabset verticle="true" justified="true">
-                <tab ng-init="nm=category.name" ng-repeat="category in categories"
-                     heading="{{nm}}"
-                        >
-                    <div ng-include="'category.html'"></div>
-                </tab>
-            </tabset>
-        </td>
-        <td class="details">
-            <div class="details" ng-include="'details.html'"></div>
-        </td>
-    </tr>
-</table>
-
-<table width="100%">
-    <thead>
-    <tr>
-        <th colspan="2">Build File Dependencies</th>
-    </tr>
-    <tr>
-        <th>Direct</th>
-        <th>Transitive</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td width="45%" style="height: 300px; overflow: auto;">
-            <table width="100%">
+        <td class="category-list" width="45%">
+            <table>
+                <thead>
                 <tr>
-                    <th>Group ID</th>
-                    <th>Artifact</th>
-                    <th>Version</th>
+                    <th>Category List</th>
                 </tr>
-                <tbody class="buildFileDependencies">
-                <tr class="buildFileDependencies" ng-repeat="dep in buildFile.dependencies">
-                    <td> {{dep.groupId}}</td>
-                    <td> {{dep.artifactId}}</td>
-                    <td> {{dep.version}}</td>
+                </thead>
+                <tr>
+                    <td wodth="50%">
+                        <tabset verticle="true" justified="true">
+                            <tab ng-init="nm=category.name" ng-repeat="category in categories"
+                                 heading="{{nm}}"
+                                    >
+                                <div ng-include="'category.html'"></div>
+                            </tab>
+                        </tabset>
+                    </td>
                 </tr>
-                </tbody>
             </table>
         </td>
         <td width="45%">
             <table width="100%">
                 <thead>
                 <tr>
+                    <th>Artifact Details</th>
+                </tr>
+                </thead>
+                <tr>
+                    <td>
+                        <div class="details" ng-include="'details.html'"></div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2">Build Dependencies</th>
+    </tr>
+    <tr>
+        <td width="45%">
+
+            <label> Direct </label>
+
+            <div ng-repeat="dep in buildFile.dependencies">
+                <table>
+                    <tr>
+                        <td> {{dep.groupId}}</td>
+                        <td> {{dep.artifactId}}</td>
+                        <td> {{dep.version}}</td>
+                    </tr>
+                </table>
+
+            </div>
+        </td>
+
+        <td width="45%">
+            <table width="100%">
+                <thead>
+                <tr>
+                    <th colspan="3">Transitive</th>
+                </tr>
+                <tr>
                     <th>Group ID</th>
                     <th>Artifact</th>
                     <th>Version</th>
                 </tr>
                 </thead>
-            </table>
-            <table style="overflow:auto; height: 300px;" width="100%">
-                <tbody>
-                <tr ng-repeat="dep in buildFile.transitiveDependencies">
-                    <td> {{dep.groupId}}</td>
-                    <td> {{dep.artifactId}}</td>
-                    <td> {{dep.version}}</td>
+                <tbody class="buildFileDependencies">
+                <tr>
+                    <td width="45%" style="height: 300px; overflow: auto;">
+                        <table width="100%">
+                            <tbody>
+                            <tr ng-repeat="dep in buildFile.transitiveDependencies">
+                                <td> {{dep.groupId}}</td>
+                                <td> {{dep.artifactId}}</td>
+                                <td> {{dep.version}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+
                 </tr>
                 </tbody>
             </table>
@@ -109,6 +133,7 @@
     </tr>
     </tbody>
 </table>
+
 
 <script src="js/jquery/jquery-1.8.2.js"></script>
 <script src="js/angular/angular.js"></script>

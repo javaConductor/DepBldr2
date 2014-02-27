@@ -6,12 +6,10 @@ import com.soulsys.g_serv.GServ
 import static groovyx.gpars.dataflow.Dataflow.task
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
-
 class Main {
 
     static public void main(String[] args) {
         println "Main started!!"
-
         def asMap = { thing ->
             thing.class.declaredFields { !it.synthetic }.collectEntries {
                 [(it.name): thing."$it.name"]
@@ -27,64 +25,59 @@ class Main {
             ]
         }
 
+        def versionToMap = { a ->
+            [version: a.version]
+        }
+
         AnnotationConfigApplicationContext ctx =
                 new AnnotationConfigApplicationContext(DependencyService.class)
         ctx.register(AppConfig.class);
-//        ctx.refresh();
         def service = ctx.getBean(DependencyService.class);
-
         def gserv = new GServ()
-        def res = GServ.Resource('/artifact') {
-            get(":id") { artifactId ->
-                def parts = artifactId.split(':')
-                if (parts.size() < 3) {
-                    error(404, "Bad artifact name [$artifactId]")
-                } else {
-                    def artifact = new DataflowVariable()
-                    task {
-                        //TODO When Exception thrown, it does nothing - returns NO response!!!
-                        try {
-                            artifact << service.getArtifact(parts[0], parts[1], parts[2])
-                        } catch (Throwable e) {
-                            error(500, e.message)
-                        }
-                    }
-                    artifact.then({
-                        writeJson(artifactToMap(it))
-                    })
+        def artifactResource = GServ.Resource('/artifact/:groupId/:artifactId') {
+            get("/version/:version") { groupId, artifactId, version ->
+                def artifact = new DataflowVariable()
+                try {
+                    artifact << service.getArtifact(groupId, artifactId, version)
+                    writeJson(artifactToMap(artifact.val))
+                } catch (Throwable e) {
+                    error(500, e.message)
                 }
-            }
-            get(":id/dependencies") { ->
-                def parts = artifactId.split(':')
-                if (parts.size() < 3) {
-                    error(404, "BartifactIdad artifact name [$artifactId]")
-                } else {
-                    def artifactDeps = new DataflowVariable()
-                    task {
-                        try {
-                            artifactDeps << service.getArtifactDependencies(parts[0], parts[1], parts[2])
-                        } catch (Throwable e) {
+            }//get
+            get("/version/:version/dependencies") { groupId, artifactId, version ->
+                def artifactDeps = new DataflowVariable()
+                try {
+                    artifactDeps << service.getArtifactDependencies(groupId, artifactId, version)
+                    writeJson(
+                            artifactDeps.val.collect { result ->
+                                artifactToMap(result.artifact)
+                            })
+                } catch (Throwable e) {
+                    System.err.println "Error getting deps for $artifactId: ${e.message}"
+                    e.printStackTrace(System.err)
+                    error(500, e.message)
+                }
+            }//get
 
-                            ///TODO check for Artifact NOT found error.
-                            System.err.println "Error getting deps for $artifactId: ${e.message}"
-                            e.printStackTrace(System.err)
-                            error(500, e.message)
-                        }
-                    }
-                    artifactDeps.then({
-                        writeJson(
-                                it.collect { result ->
-                                    artifactToMap(result.artifact)
-                                })
-                    })
+            get("/versions") { groupId, artifactId ->
+                def versions = new DataflowVariable()
+                try {
+                    versions << service.getArtifactVersions(groupId, artifactId)
+                    writeJson(versions.val.collect(versionToMap))
+                } catch (Throwable e) {
+                    ///TODO check for Artifact NOT found error.
+                    System.err.println "Error getting versions for $groupId:$artifactId: ${e.message}"
+                    e.printStackTrace(System.err)
+                    error(500, e.message)
                 }
-            }
-        }
+            }//get
+
+        }// artifact resource
 
         gserv.http {
             useResourceDocs(true)
             get("/", file("text/html", "views/index.html"))
-            resource(res)
+            resource(artifactResource)
         }.start(9090)
     }
 }
