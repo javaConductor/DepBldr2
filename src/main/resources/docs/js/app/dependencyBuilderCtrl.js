@@ -52,9 +52,46 @@ function DependencyBuilderCtrl($scope, $http, $q){
         message:""
     }
 
+    var compareArtifacts = function(a, b){
+       if (a.groupId < b.groupId)
+           return -1;
+       if (a.groupId > b.groupId)
+           return 1;
+
+       if (a.artifactId < b.artifactId)
+           return -1;
+       if (a.artifactId > b.artifactId)
+           return 1;
+
+       if (a.version < b.version)
+           return -1;
+       if (a.version > b.version)
+           return 1;
+
+       return 0;
+   };
+
+
+   var unique = function(arr, cmpFn){
+       var nuList = [];
+       arr.forEach(function(obj, idx){
+        if(!nuList.some(function(nu){
+            return (cmpFn(obj, nu) == 0);
+        })){
+            nuList.push(obj)
+        }
+
+       })
+       return nuList;
+   }
+
+
+
     $scope.transitives = function(){
         var t = [];
         $scope.buildFile.dependencies.forEach (function( dep){ t = t.concat(dep.dependencies)});
+        t = unique(t, compareArtifacts);
+        t = t.sort(compareArtifacts);
         return t;
     }
 
@@ -64,9 +101,9 @@ function DependencyBuilderCtrl($scope, $http, $q){
         $scope.buildFile.dependencies.push({ artifactId: $scope.details.artifactId,
                                     groupId:$scope.details.groupId,
                                     version: $scope.details.version.version,
-                                    dependencies: $scope.details.dependencies})
-        console.dir( ["details deps",$scope.details.dependencies])
-        $scope.buildFile.transitiveDependencies = $scope.transitives()
+                                    dependencies: $scope.details.dependencies});
+        console.dir( ["details deps",$scope.details.dependencies]);
+        $scope.buildFile.transitiveDependencies = $scope.transitives();
     }
 
     $scope.toggleDetails = function(artifact){

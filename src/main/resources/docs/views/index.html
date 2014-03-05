@@ -12,7 +12,7 @@
 <body ng-controller="DependencyBuilderCtrl">
 
 <script type="text/ng-template" id="category.html">
-    <ul class=" list-group">{{category.name}}
+    <ul class=" list-group">
         <li class="list-group-item" ng-click="toggleDetails(artifact)" ng-repeat="artifact in category.artifacts">
             {{artifact.groupId}}:{{artifact.artifactId}}
         </li>
@@ -36,16 +36,18 @@
     </ul>
 </script>
 
+<script type="text/javascript">
+</script>
+
 <table class="container">
     <thead>
     <tr>
         <th colspan="2">Dependency Builder App</th>
     </tr>
-    </tr>
     </thead>
     <tbody>
     <tr>
-        <td class="category-list" width="45%">
+        <td class="quadrant">
             <table>
                 <thead>
                 <tr>
@@ -53,11 +55,11 @@
                 </tr>
                 </thead>
                 <tr>
-                    <td wodth="50%">
+                    <td width="50%">
                         <tabset verticle="true" justified="true">
-                            <tab ng-init="nm=category.name" ng-repeat="category in categories"
-                                 heading="{{nm}}"
-                                    >
+
+                            <tab ng-init="nm=category.name" ng-repeat="category in categories">
+                                <tab-heading>{{ category.name }}</tab-heading>
                                 <div ng-include="'category.html'"></div>
                             </tab>
                         </tabset>
@@ -65,7 +67,7 @@
                 </tr>
             </table>
         </td>
-        <td width="45%">
+        <td class="quadrant">
             <table width="100%">
                 <thead>
                 <tr>
@@ -84,51 +86,24 @@
         <th colspan="2">Build Dependencies</th>
     </tr>
     <tr>
-        <td width="45%">
+        <th width="45%">Direct</th>
+        <th width="45%">Transitive</th>
+    </tr>
+    <tr>
+        <td valign="top" width="45%" class="quadrant">
 
-            <label> Direct </label>
-
-            <div ng-repeat="dep in buildFile.dependencies">
-                <table>
-                    <tr>
-                        <td> {{dep.groupId}}</td>
-                        <td> {{dep.artifactId}}</td>
-                        <td> {{dep.version}}</td>
-                    </tr>
-                </table>
-
-            </div>
+            <ul>
+                <li ng-repeat="dep in buildFile.dependencies">
+                    {{dep.groupId}} : {{dep.artifactId}} : {{dep.version}}
+                </li>
+            </ul>
         </td>
-
-        <td width="45%">
-            <table width="100%">
-                <thead>
-                <tr>
-                    <th colspan="3">Transitive</th>
-                </tr>
-                <tr>
-                    <th>Group ID</th>
-                    <th>Artifact</th>
-                    <th>Version</th>
-                </tr>
-                </thead>
-                <tbody class="buildFileDependencies">
-                <tr>
-                    <td width="45%" style="height: 300px; overflow: auto;">
-                        <table width="100%">
-                            <tbody>
-                            <tr ng-repeat="dep in buildFile.transitiveDependencies">
-                                <td> {{dep.groupId}}</td>
-                                <td> {{dep.artifactId}}</td>
-                                <td> {{dep.version}}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </td>
-
-                </tr>
-                </tbody>
-            </table>
+        <td valign="top" width="45%" class="quadrant">
+            <ul>
+                <li ng-repeat="dep in buildFile.transitiveDependencies">
+                    {{dep.groupId}} : {{dep.artifactId}} : {{dep.version}}
+                </li>
+            </ul>
         </td>
     </tr>
     </tbody>

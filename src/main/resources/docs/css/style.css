@@ -4,22 +4,16 @@ header
     height: 50px;
 }
 
+thead {
+    overflow: auto;
+}
+
 .row
 {
     height: 100%;
     display: table-row;
 }
 
-.category-list{
-    float:left;
-    display:table;
-    width: 40%;
-    height: 300px;
-    overflow: auto;
-    padding: 10px 10px 10px 10px;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
 
 .details{
     float:  right;
@@ -40,7 +34,19 @@ tbody.buildFileDependencies{
     height: 300px;
     overflow: auto;
 }
+.quadrant{
+    height: 50%;
+    width: 50%;
+    vertical-align: top;
+    overflow: auto;
+    border: groove;
+}
 
 th{
     text-align:center;
+}
+
+td {
+    text-align: top
+    vertical-align:top;
 }
