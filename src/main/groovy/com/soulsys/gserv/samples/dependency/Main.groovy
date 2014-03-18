@@ -1,15 +1,18 @@
 package com.soulsys.gserv.samples.dependency
 
-import groovyx.gpars.dataflow.DataflowVariable
-import org.eclipse.aether.*
 import com.soulsys.g_serv.GServ
-import static groovyx.gpars.dataflow.Dataflow.task
-
+import com.soulsys.g_serv.plugins.PluginMgr
+import com.soulsys.g_serv.plugins.eventLogger.EventLoggerPlugin
+import groovyx.gpars.dataflow.DataflowVariable
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
+
 class Main {
 
     static public void main(String[] args) {
         println "Main started!!"
+        def pluginMgr = PluginMgr.instance()
+        pluginMgr.register("eventLogger", EventLoggerPlugin.class)
+
         def asMap = { thing ->
             thing.class.declaredFields { !it.synthetic }.collectEntries {
                 [(it.name): thing."$it.name"]
@@ -74,8 +77,11 @@ class Main {
 
         }// artifact resource
 
-        gserv.http {
+        gserv.plugins {
+            plugin("eventLogger", [:])
+        }.http {
             useResourceDocs(true)
+
             get("/", file("text/html", "views/index.html"))
             resource(artifactResource)
         }.start(9090)

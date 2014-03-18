@@ -26,7 +26,7 @@
             ng-change="populateDtlDependencies()"
             ng-options="v.version for v in details.versions">
     </select>
-    <button ng-show="details.version" ng-click="addDependency()">
+    <button ng-show="details.versions && details.dependencies" ng-click="addDependency()">
         Add Dependency
     </button>
     <ul class="list-group">Dependencies

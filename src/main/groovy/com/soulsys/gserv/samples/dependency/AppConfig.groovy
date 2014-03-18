@@ -14,8 +14,6 @@ import javax.inject.Inject
 @ComponentScan(basePackages = ["com.soulsys.gserv.samples.dependency"],
         scopeResolver = Jsr330ScopeMetadataResolver.class)
 class AppConfig {
-
     private @Inject
     Environment env
-
 }

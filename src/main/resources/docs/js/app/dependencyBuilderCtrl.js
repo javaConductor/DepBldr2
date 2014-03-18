@@ -26,6 +26,17 @@ function DependencyBuilderCtrl($scope, $http, $q){
             {groupId:"org.mongodb",artifactId:"mongo-java-driver"},
             {groupId:"com.oracle",artifactId:"ojdbc14"}
             ]},{
+        name:"ORM",
+        artifacts:[
+            {groupId:"org.mybatis",artifactId:"mybatis"},
+            {groupId:"org.springframework",artifactId:"spring-ibatis"},
+            {groupId:'org.javalite',artifactId:'activejdbc'},
+            {groupId:"org.apache.openjpa",artifactId:"openjpa"},
+            {groupId:"org.springframework",artifactId:"spring-jpa"},
+            {groupId:"org.springframework.data",artifactId:"spring-data-neo4j-rest"},
+            {groupId:"org.springframework",artifactId:"spring-hibernate2"},
+            {groupId:"org.hibernate",artifactId:"hibernate-core"}
+            ]},{
         name:"Parsers",
         artifacts:[
             {groupId:"com.esotericsoftware.yamlbeans",artifactId:"yamlbeans"},
@@ -41,10 +52,24 @@ function DependencyBuilderCtrl($scope, $http, $q){
         artifacts:[
             {groupId:"org.springframework", artifactId:"spring-core"},
             {groupId:"org.springframework", artifactId:"spring-context"},
+            {groupId:"org.springframework", artifactId:"spring-context"},
             {groupId:"org.springframework", artifactId:"spring-beans"},
             {groupId:"org.springframework", artifactId:"spring-web"},
             {groupId:"org.springframework", artifactId:"spring-webmvc"},
             {groupId:"org.springframework", artifactId:"spring"}
+            ]},{
+        name: "Spring Security Framework",
+        artifacts:[
+            {groupId:"org.springframework.security", artifactId:"spring-security-cas"},
+            {groupId:"org.springframework.security", artifactId:"spring-security-cas-client"},
+            {groupId:"org.springframework.security", artifactId:"spring-security-config"},
+            {groupId:"org.springframework.security", artifactId:"spring-security-core"},
+            {groupId:"org.springframework", artifactId:"spring-ldap"},
+            {groupId:"org.springframework.security", artifactId:"spring-security-ldap"},
+            {groupId:"org.springframework.ldap", artifactId:"spring-ldap"},
+            {groupId:"org.springframework.ldap", artifactId:"spring-ldap-core"},
+            {groupId:"org.springframework.security", artifactId:"spring-security-core-tiger"},
+            {groupId:"org.springframework.security", artifactId:"spring-security-web"}
             ]}
     ]
 
@@ -85,8 +110,6 @@ function DependencyBuilderCtrl($scope, $http, $q){
        return nuList;
    }
 
-
-
     $scope.transitives = function(){
         var t = [];
         $scope.buildFile.dependencies.forEach (function( dep){ t = t.concat(dep.dependencies)});
@@ -98,25 +121,37 @@ function DependencyBuilderCtrl($scope, $http, $q){
     $scope.addDependency = function(){
         if (!$scope.details.version)
             return;
+
         $scope.buildFile.dependencies.push({ artifactId: $scope.details.artifactId,
-                                    groupId:$scope.details.groupId,
-                                    version: $scope.details.version.version,
-                                    dependencies: $scope.details.dependencies});
+                groupId:$scope.details.groupId,
+                version: $scope.details.version.version,
+                dependencies: $scope.details.dependencies});
+
+        $scope.buildFile.dependencies = unique($scope.buildFile.dependencies, compareArtifacts).sort(compareArtifacts)
+
         console.dir( ["details deps",$scope.details.dependencies]);
         $scope.buildFile.transitiveDependencies = $scope.transitives();
     }
 
     $scope.toggleDetails = function(artifact){
+            $scope.details.versions = []
+            $scope.details.dependencies = []
         if(artifact.artifactId== $scope.details.artifactId && artifact.groupId== $scope.details.groupId  ){
+            // empty the details views
+            $scope.details.artifactId = ""
+            $scope.details.groupId=""
+            return
+        }
+
+        $scope.populateDetails(artifact, $scope.details)
+    }
+
+    $scope.clearDetails = function(){
             // empty the details views
             $scope.details.artifactId = ""
             $scope.details.groupId=""
             $scope.details.versions = []
             $scope.details.dependencies = []
-            return
-        }
-
-        $scope.populateDetails(artifact, $scope.details)
     }
 
 //    $scope.restSvcVersion = $resource('/artifact/:groupId/:artifactId/versions', {isArray: true});
@@ -149,7 +184,9 @@ function DependencyBuilderCtrl($scope, $http, $q){
             $http({method: 'GET', url: url}).
                 success(function(versions, status, headers, config) {
                      console.dir(["got versions for "+url, versions])
-                     details.versions = versions
+                     details.versions = versions.reverse()
+                     details.version = details.versions[0]
+                     $scope.populateDtlDependencies()
                 }).
                 error(function(data, status, headers, config) {
                     console.dir(["error getting versions for "+url, data])
