@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/../SwordBibleService/build.gradle" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../SwordBibleService/src/main/groovy/org/swordexplorer/rest/Main.groovy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../SwordBibleService/src/main/groovy/org/swordexplorer/rest/service/SwordService.groovy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../gservFramework/gradle.properties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../gservFramework/src/integrationTest/groovy/test/integration/StatusPageSpec.groovy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../gservFramework/src/main/groovy/io/github/javaconductor/gserv/configuration/GServConfigFile.groovy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../gservFramework/src/main/groovy/io/github/javaconductor/gserv/delegates/HttpMethodDelegate.groovy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../gservFramework/src/main/groovy/io/github/javaconductor/gserv/delegates/functions/ResourceFn.groovy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../gservFramework/src/main/groovy/io/github/javaconductor/gserv/pathmatching/custom/AcceptsMatcher.groovy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../gservFramework/src/main/groovy/io/github/javaconductor/gserv/plugins/compression/CompressionPlugin.groovy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../gservFramework/src/main/groovy/io/github/javaconductor/gserv/plugins/cors/CorsPlugin.groovy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../gservFramework/src/main/groovy/io/github/javaconductor/gserv/requesthandler/AsyncDispatcher.groovy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../gservFramework/src/main/groovy/io/github/javaconductor/gserv/requesthandler/FilterRunner.groovy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../gservFramework/src/main/groovy/io/github/javaconductor/gserv/resourceloader/ResourceLoader.groovy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../gservFramework/src/main/groovy/io/github/javaconductor/gserv/status/StatisticsMgr.groovy" charset="UTF-8" />
+  </component>
+</project>
