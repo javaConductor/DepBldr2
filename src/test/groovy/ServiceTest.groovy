@@ -1,11 +1,9 @@
 /**
  * Created by lcollins on 2/13/14.
  */
+import io.github.javaconductor.gserv.samples.dependency.DependencyService
 
-import com.soulsys.g_serv.Route
-import com.soulsys.g_serv.RouteFactory
-import com.soulsys.g_serv.utils.LinkBuilder
-import com.soulsys.gserv.samples.dependency.DependencyService
+//import io.github.javaconductor.gserv.Factory
 import org.eclipse.aether.artifact.Artifact
 import org.eclipse.aether.version.Version
 import org.junit.Before

@@ -12,15 +12,24 @@ function DependencyBuilderCtrl($scope, $http, $q){
         versions:[{version:'2.5.6'},{version:'2.0.6'}],
         dependencies:[]
     }
-    $scope.categories = [{
+  $scope.categories = [
+    {
         name:"Languages",
         artifacts:[
+          {groupId: 'io.vertx', artifactId: 'lang-nashorn'},
+          {groupId: 'org.jetbrains.kotlin', artifactId: 'kotlin-compiler'},
+          {groupId: 'org.jetbrains.kotlin', artifactId: 'kotlin-stdlib'},
+          {groupId: 'org.clojure', artifactId: 'clojure'},
+          {groupId: 'org.mozilla', artifactId: 'rhino'},
             {groupId:"org.scala-lang", artifactId:"scala-compiler"},
             {groupId:"org.scala-lang", artifactId:"scala-library"},
             {groupId:'org.codehaus.groovy',artifactId:'groovy-all'}
             ]},{
         name:"DB Driver",
         artifacts:[
+          {groupId: 'org.apache', artifactId: 'cassandra'},
+          {groupId: 'org.firebase', artifactId: 'firebase-client'},
+          {groupId: 'org.neo4j', artifactId: 'neo4j'},
             {groupId:"com.gmongo",artifactId:"gmongo"},
             {groupId:'mysql',artifactId:'mysql-connector-java'},
             {groupId:"org.mongodb",artifactId:"mongo-java-driver"},
@@ -35,8 +44,17 @@ function DependencyBuilderCtrl($scope, $http, $q){
             {groupId:"org.springframework",artifactId:"spring-jpa"},
             {groupId:"org.springframework.data",artifactId:"spring-data-neo4j-rest"},
             {groupId:"org.springframework",artifactId:"spring-hibernate2"},
+          {groupId: 'org.grails', artifactId: 'grails-datastore-core'},
+          {groupId: 'org.grails', artifactId: 'grails-datastore-gorm'},
             {groupId:"org.hibernate",artifactId:"hibernate-core"}
             ]},{
+      name: "REST",
+      artifacts: [
+        {groupId: "io.github.javaconductor", artifactId: "gserv"},
+        {groupId: "com.augusttechgroup", artifactId: "ratpack"}
+
+      ]
+    }, {
         name:"Parsers",
         artifacts:[
             {groupId:"com.esotericsoftware.yamlbeans",artifactId:"yamlbeans"},
@@ -46,6 +64,9 @@ function DependencyBuilderCtrl($scope, $http, $q){
             {groupId:"org.codehaus.jackson",artifactId:"jackson-mapper-asl"},
             {groupId:'org.json',artifactId:'json'},
             {groupId:"org.codehaus.jettison",artifactId:"jettison"},
+          {groupId: 'org.pegdown', artifactId: 'pegdown'},
+          {groupId: 'eu.henkelmann', artifactId: 'actuarius_2.10.0'},
+          {groupId: 'eu.henkelmann', artifactId: 'actuarius_2.9.2'},
             {groupId:"com.fasterxml.jackson.core",artifactId:"jackson-core"}
             ]},{
         name: "Spring Framework",
@@ -95,7 +116,6 @@ function DependencyBuilderCtrl($scope, $http, $q){
 
        return 0;
    };
-
 
    var unique = function(arr, cmpFn){
        var nuList = [];
